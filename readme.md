@@ -2,7 +2,7 @@
 
 ### 硬件概况
 
-| PCB MASK |                            |
+| PCB MASK | MC03-D-V200                |
 | -------- | -------------------------- |
 | CPU      | Z3735F                     |
 | DRAM     | 2G DDR3                    |
@@ -56,11 +56,15 @@
    此时即可进入系统，按照以下命令进行引导修复，重启后可自动引导进系统
 
    > sudo apt-get remove --purge --allow-remove-essential shim-signed
+   >
    > sudo apt-get remove --purge grub-efi-amd64 grub-efi-amd64-bin grub-efi-amd64-signed
+   >
    > sudo apt-get -y install grub-efi-ia32-bin grub-efi-ia32 grub-common grub2-common
+   >
    > sudo grub-install --target=i386-efi /dev/mmcblk1p2 --efi-directory=/boot/efi/ --boot-directory=/boot/
+   >
    > sudo grub-mkconfig -o /boot/grub/grub.cfg
-   
+
 5. 拷贝驱动固件到/lib/firmware，重启系统，驱动均完美解决
 
 6. 临时解决显示异常modeset=0
