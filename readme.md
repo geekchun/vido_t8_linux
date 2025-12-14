@@ -7,7 +7,7 @@
 | CPU      | Z3735F                     |
 | DRAM     | 2G DDR3                    |
 | EMMC     | 32G                        |
-| 声卡     | RT5640                     |
+| 声卡     | ALC5640                    |
 | 有线网卡 | DM9601                     |
 | 无线网卡 | AP6212                     |
 | 触摸IC   | ICN8525(ICN8505)           |
@@ -55,9 +55,9 @@
 
    此时即可进入系统，按照以下命令进行引导修复，重启后可自动引导进系统
 
-   > sudo apt-get remove --purge --allow-remove-essential shim-signed
+   > sudo apt-get  -y remove --purge --allow-remove-essential shim-signed
    >
-   > sudo apt-get remove --purge grub-efi-amd64 grub-efi-amd64-bin grub-efi-amd64-signed
+   > sudo apt-get -y  remove --purge grub-efi-amd64 grub-efi-amd64-bin grub-efi-amd64-signed
    >
    > sudo apt-get -y install grub-efi-ia32-bin grub-efi-ia32 grub-common grub2-common
    >
@@ -65,9 +65,21 @@
    >
    > sudo grub-mkconfig -o /boot/grub/grub.cfg
 
-5. 拷贝驱动固件到/lib/firmware，重启系统，驱动均完美解决
+5. 拷贝驱动固件到/lib/firmware，重启系统
 
-6. 临时解决显示异常modeset=0
+6. 解决显示异常问题，ubuntu22默认用wayland，导致触摸镜像，桌面显示异常，屏幕无法旋转，这里改为x11解决
+
+   > sudo nano /etc/gdm3/custom.conf
+   >
+   > WaylandEnable=false
+   >
+   > 保存重启
+   >
+   > echo $XDG_SESSION_TYPE
+   
+   echo $XDG_SESSION_TYPE查看是否更改成功
+   
+   已知wayland下设置grub参数i915.modeset=0，鼠标显示正常，触摸正常但是没办法自动旋转，背光无法调节。x11下鼠标显示颠倒，触摸正常，旋转和背光也正常。
 
 ### 懒人安装方式
 
@@ -78,5 +90,4 @@
 
 ### 文件说明
 
-
-
+win8_img.7z 原系统安装镜像，包含所有驱动
